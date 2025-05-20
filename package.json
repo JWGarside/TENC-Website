@@ -1,0 +1,23 @@
+{
+    "name": "emperors-new-code",
+    "version": "1.0.0",
+    "description": "A tool to compare research papers with their code implementations",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "nodemon server.js"
+    },
+    "dependencies": {
+        "@anthropic-ai/sdk": "^0.14.1",
+        "adm-zip": "^0.5.16",
+        "express": "^4.21.2",
+        "multer": "^1.4.5-lts.1",
+        "uuid": "^9.0.1"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.3"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    }
+}

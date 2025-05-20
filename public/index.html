@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Emperor's New Code</title>
+    <style>
+        :root {
+            --primary-color: #1f1f1f;
+            --secondary-color: #4c4c4c;
+            --accent-color: #4fc3a1;
+            --light-color: #282828;
+            --dark-color: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+        
+        .upload-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .instructions {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background-color: #e9f7f2;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 4px;
+        }
+        
+        .upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .upload-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .upload-box {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-box:hover {
+            border-color: var(--accent-color);
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .file-label {
+            display: block;
+            cursor: pointer;
+            padding: 1rem;
+            margin-top: 1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .file-label:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .selected-file {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+        
+        .action-button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin: 2rem 0 1rem;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-button:hover {
+            background-color: #45b192;
+        }
+        
+        .action-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .results-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .results-content {
+            font-size: 16px;
+            white-space: pre-line;
+            line-height: 1.6;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--accent-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 4px;
+            padding: 1rem;
+            margin: 1rem 0;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>The Emperor's New Code</h1>
+            <p class="subtitle"><em>‘But the code doesn't work at all!" the whole scientific community cried out at last, after months of failed reproduction attempts.’</em></p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="upload-section">
+            <div class="instructions">
+                <h2>How It Works</h2>
+                <p>Upload a research paper (PDF) and its corresponding code implementation to identify any discrepancies that could affect reproducibility or validity.</p>
+                <ol>
+                    <li>Upload your research paper (PDF format)</li>
+                    <li>Upload the .Zip implementation folder</li>
+                    <li>Click "Run Comparison" to analyse</li>
+                </ol>
+                <p>The analysis will identify discrepancies between the paper's methodology and code implementation, highlighting issues that could affect reproducibility.</p>
+            </div>
+            
+            <div class="upload-grid">
+                <div class="upload-box">
+                    <h3>Research Paper</h3>
+                    <p>Upload your PDF research paper</p>
+                    <input type="file" id="paper-upload" class="file-input" accept=".pdf" />
+                    <label for="paper-upload" class="file-label">Select Paper</label>
+                    <div id="paper-filename" class="selected-file"></div>
+                </div>
+                
+                <div class="upload-box">
+                    <h3>Codebase Implementation</h3>
+                    <p>Upload your .Zip folder</p>
+                    <input type="file" id="code-upload" class="file-input" accept=".zip,application/zip,application/x-zip-compressed" />
+                    <label for="code-upload" class="file-label">Select Code</label>
+                    <div id="code-filename" class="selected-file"></div>
+                </div>
+            </div>
+            
+            <button id="compare-button" class="action-button" disabled>Run Comparison</button>
+            
+            <div id="error-message" class="error-message"></div>
+        </div>
+        
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Analysing paper against code, this may take a minute...</p>
+        </div>
+        
+        <div id="results-section" class="results-section">
+            <h2>Analysis Results</h2>
+            <div id="results-content" class="results-content"></div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
