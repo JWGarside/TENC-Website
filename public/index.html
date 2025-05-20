@@ -5,19 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Emperor's New Code</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Xanh+Mono:ital@0;1&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300;8..144,400&display=swap'); /* Added Roboto Flex import */
         :root {
-            --primary-color: #1f1f1f;
-            --secondary-color: #4c4c4c;
-            --accent-color: #4fc3a1;
-            --light-color: #282828;
-            --dark-color: #343a40;
+            --primary-color: #1e88e5; /* Medium Blue */
+            --secondary-color: #64b5f6; /* Lighter Blue */
+            --accent-color: #2979ff; /* Vibrant Blue */
+            --light-color: #ffffff; /* White */
+            --dark-color: #181818; /* Dark Gray for text */
+            --header-font: 'Xanh Mono', monospace; /* Define Xanh Mono here */
+            --body-font: 'Roboto Flex', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Define Roboto Flex for body */
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--body-font); /* Use Roboto Flex for body */
+            font-weight: 400; /* Default to regular weight for Roboto Flex */
             line-height: 1.6;
             color: var(--dark-color);
-            background-color: var(--light-color);
+            background-color: var(--light-color); /* Fallback background */
+            background-image: url('/blue doodle.png'); /* Background image */
+            background-size: cover; /* Cover the entire page */
+            background-repeat: no-repeat; /* Do not repeat the image */
+            background-position: center center; /* Center the image */
+            background-attachment: fixed; /* Keep the background fixed during scroll */
             margin: 0;
             padding: 0;
         }
@@ -30,26 +40,43 @@
         }
         
         header {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: transparent; /* Make header transparent */
+            color: var(--dark-color); /* Text color for header content */
             padding: 2rem 0;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: none; /* Remove shadow */
         }
         
-        h1 {
+        /* Main title style - already uses Xanh Mono via var(--header-font) */
+        h1 { 
             margin: 0;
-            font-size: 2.5rem;
+            font-family: var(--header-font); 
+            font-size: 6rem; 
+            color: #000000; 
+            font-weight: normal; 
         }
         
-        .subtitle {
-            font-size: 1.2rem;
+        /* Subtitle style - already uses Xanh Mono via var(--header-font) */
+        .subtitle { 
+            font-family: var(--header-font); 
+            font-style: italic; 
+            font-size: 1.8rem; 
             opacity: 0.9;
-            margin-top: 0.5rem;
+            margin-top: 1rem;
+            color: #2e2e2e; 
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* General style for h2 section headers to use Roboto Flex */
+        h2 {
+            font-family: var(--body-font); /* Use Roboto Flex for h2 */
+            font-weight: 600; /* Regular weight for Roboto Flex */
         }
         
         .upload-section {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
             border-radius: 8px;
             padding: 2rem;
             margin: 2rem 0;
@@ -59,9 +86,15 @@
         .instructions {
             margin-bottom: 2rem;
             padding: 1rem;
-            background-color: #e9f7f2;
-            border-left: 4px solid var(--accent-color);
+            background-color: #e3f2fd; /* Light blue background for instructions */
+            border-left: 4px solid var(--accent-color); /* Vibrant blue accent border */
             border-radius: 4px;
+        }
+
+        /* Ensure h3 in upload-box uses Roboto Flex */
+        .upload-box h3 {
+            font-family: var(--body-font); /* Use Roboto Flex for h3 */
+            font-weight: 600; /* Regular weight for Roboto Flex */
         }
         
         .upload-grid {
@@ -85,26 +118,27 @@
         }
         
         .upload-box:hover {
-            border-color: var(--accent-color);
+            border-color: var(--accent-color); /* Vibrant blue border on hover */
         }
         
         .file-input {
             display: none;
         }
         
-        .file-label {
+        .file-label { /* "Select Paper" / "Select Code" buttons */
             display: block;
             cursor: pointer;
             padding: 1rem;
             margin-top: 1rem;
-            background-color: var(--secondary-color);
+            background-color: var(--secondary-color); /* Lighter blue */
             color: white;
             border-radius: 4px;
             transition: all 0.3s ease;
+            font-family: var(--body-font); /* Ensure button text uses body font */
         }
         
         .file-label:hover {
-            background-color: var(--primary-color);
+            background-color: var(--primary-color); /* Medium blue on hover */
         }
         
         .selected-file {
@@ -113,22 +147,23 @@
             word-break: break-all;
         }
         
-        .action-button {
+        .action-button { /* "Run Comparison" button */
             display: block;
             width: 100%;
             padding: 1rem;
             margin: 2rem 0 1rem;
-            background-color: var(--accent-color);
+            background-color: var(--accent-color); /* Vibrant blue */
             color: white;
             border: none;
             border-radius: 4px;
             font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-family: var(--body-font); /* Ensure button text uses body font */
         }
         
         .action-button:hover {
-            background-color: #45b192;
+            background-color: var(--primary-color); /* Medium blue on hover (darker than accent) */
         }
         
         .action-button:disabled {
@@ -137,7 +172,7 @@
         }
         
         .results-section {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
             border-radius: 8px;
             padding: 2rem;
             margin: 2rem 0;
@@ -146,9 +181,46 @@
         }
         
         .results-content {
-            font-size: 16px;
+            font-size: 16px; /* This will use Roboto Flex due to body inheritance */
             white-space: pre-line;
             line-height: 1.6;
+        }
+
+        /* Styles for Summary Statistics Section */
+        /* h2 here will inherit Xanh Mono from the general h2 rule */
+        .results-content h2:first-of-type { 
+            margin-top: 0;
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem; 
+            color: var(--primary-color); 
+        }
+
+        .summary-items {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: #f0f4f8; 
+            border-radius: 6px;
+            border: 1px solid #dde6ed;
+        }
+
+        .summary-items p { /* Paragraphs within summary will use Roboto Flex */
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .summary-items p strong:first-child { 
+            color: var(--dark-color); 
+        }
+        .summary-items p strong:last-child { 
+            color: var(--accent-color); 
+        }
+
+        .results-content hr {
+            border: 0;
+            height: 1px;
+            background-color: #ccc;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
         }
         
         .loading {
@@ -158,8 +230,8 @@
         }
         
         .loading-spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--accent-color);
+            border: 5px solid #f3f3f3; /* Light grey */
+            border-top: 5px solid var(--accent-color); /* Vibrant blue */
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -172,7 +244,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        .error-message {
+        .error-message { /* Error message styling remains the same */
             color: #dc3545;
             background-color: #f8d7da;
             border: 1px solid #f5c6cb;
@@ -188,7 +260,7 @@
     <header>
         <div class="container">
             <h1>The Emperor's New Code</h1>
-            <p class="subtitle"><em>‘But the code doesn't work at all!" the whole scientific community cried out at last, after months of failed reproduction attempts.’</em></p>
+            <p class="subtitle">Upload a research paper and the corresponding zip archive from GitHub. See how the documentation and implementation correspond, including warnings about any discrepancies between the two that could hinder reproducibility</p>
         </div>
     </header>
     
@@ -196,13 +268,13 @@
         <div class="upload-section">
             <div class="instructions">
                 <h2>How It Works</h2>
-                <p>Upload a research paper (PDF) and its corresponding code implementation to identify any discrepancies that could affect reproducibility or validity.</p>
+                <p>This tool analyses a research paper (PDF) and its accompanying code implementation (ZIP archive) to identify discrepancies that might affect the reproducibility or validity of the research.</p>
                 <ol>
-                    <li>Upload your research paper (PDF format)</li>
-                    <li>Upload the .Zip implementation folder</li>
-                    <li>Click "Run Comparison" to analyse</li>
+                    <li>Upload your research paper (PDF format).</li>
+                    <li>Upload the corresponding code implementation as a .Zip archive.</li>
+                    <li>Click "Run Comparison" to initiate the analysis.</li>
                 </ol>
-                <p>The analysis will identify discrepancies between the paper's methodology and code implementation, highlighting issues that could affect reproducibility.</p>
+                <p>The system will then compare the paper's core claims and key methological details against the algorithms and architectures of the code, highlighting any issues that may hinder out-of-the-box reproducibility</p>
             </div>
             
             <div class="upload-grid">

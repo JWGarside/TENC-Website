@@ -95,6 +95,12 @@ async function analyzeWithGemini(pdfPath, zipPath) {
         "- **Minor**: May affect performance but not fundamental approach\n" +
         "- **Cosmetic**: Documentation differences with minimal impact\n\n" +
         "## Output Format\n" +
+        "## Summary Statistics\n" + // added in for user friendliness
+        "- Critical Discrepancies: [NUMBER ONLY]\n" + // added in for user friendliness
+        "- Minor Discrepancies: [NUMBER ONLY]\n" + // added in for user friendliness
+        "- Cosmetic Discrepancies: [NUMBER ONLY]\n" + // added in for user friendliness
+        "- Verdict: [ONE OF: Highly Reproducible (if there are no critical discrepancies) / Reproducible with Caveats (if 1-2 critical discrepancies) / Major Reproducibility Issues (if 3+ critical discrepancies)]\n\n" + // added in for user friendliness
+        "Then include any explanatory notes about the discrepancies in the appropriate sections later. Do not include explanatory text in the summary statistics section.\n\n" + // added in for user friendliness
         "1. Brief paper summary and core claims\n" +
         "2. Implementation assessment\n" +
         "3. Categorized discrepancies (if any)\n" +

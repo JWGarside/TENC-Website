@@ -113,15 +113,54 @@ async function runComparison() {
 }
 
 function formatResults(results) {
-    // This function converts Markdown-like text from Gemini into HTML.
-    // It handles common Markdown elements.
+    let summaryHtml = '';
+    let mainContent = results;
 
+    // Normalize line endings first
+    mainContent = mainContent.replace(/\r\n/g, '\n');
+
+    // Regex to find the Summary Statistics section
+    // It captures "## Summary Statistics" and the list items following it.
+    const summaryRegex = /^(## Summary Statistics\s*\n)((?:-\s+.*(?:\n|$))+)/m;
+    const summaryMatch = mainContent.match(summaryRegex);
+
+    if (summaryMatch) {
+        const summaryHeaderText = summaryMatch[1].trim(); // Full header line e.g., "## Summary Statistics"
+        const summaryItemsText = summaryMatch[2].trim();  // All list items as a single string
+
+        // Create H2 for "Summary Statistics"
+        summaryHtml = `<h2>${summaryHeaderText.replace(/^##\s*/, '')}</h2>\n<div class="summary-items">\n`;
+
+        const items = summaryItemsText.split('\n');
+        items.forEach(item => {
+            const trimmedItem = item.trim();
+            if (trimmedItem === '') return;
+
+            // Expecting format like "- Label: Value"
+            const itemMatch = trimmedItem.match(/-\s*(.*?):\s*(.*)/);
+            if (itemMatch) {
+                const label = itemMatch[1].trim();
+                const value = itemMatch[2].trim();
+                summaryHtml += `<p><strong>${label}:</strong> <strong>${value}</strong></p>\n`;
+            } else {
+                // Fallback for any line in summary not matching "Label: Value" but starting with "-"
+                if (trimmedItem.startsWith('-')) {
+                    summaryHtml += `<p><strong>${trimmedItem.substring(1).trim()}</strong></p>\n`;
+                } else {
+                    summaryHtml += `<p>${trimmedItem}</p>\n`; // Should not happen if format is followed
+                }
+            }
+        });
+        summaryHtml += '</div>\n<hr />\n'; // Add a horizontal rule after summary
+
+        // Remove the summary part from mainContent so it's not processed again by general rules
+        mainContent = mainContent.replace(summaryRegex, '').trim();
+    }
+
+    // Process the rest of the content (mainContent)
     // For best display of newlines and paragraphs from the Markdown,
     // the HTML element that receives this content should have CSS `white-space: pre-line;`.
-
-    return results
-        .replace(/\r\n/g, '\n') // Normalize line endings
-
+    let processedMainContent = mainContent
         // Code blocks (```text```
         // Process first to protect their content, and escape HTML entities within.
         .replace(/```([\s\S]*?)```/g, (match, codeContent) => {
@@ -155,4 +194,6 @@ function formatResults(results) {
         // Inline code (`code`)
         .replace(/`(.*?)`/g, '<code>$1</code>')
         ; // End of chained replacements
+
+    return summaryHtml + processedMainContent;
 }
