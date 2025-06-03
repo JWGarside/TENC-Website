@@ -467,6 +467,27 @@
             to { right: -300px; }
         }
 
+        /* Print-specific styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #results-section,
+            #results-section * {
+                visibility: visible;
+            }
+            #results-section {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: auto;
+                padding: 0;
+                margin: 0;
+                box-shadow: none;
+                background: none;
+            }
+        }
 
     </style>
 </head>
@@ -511,7 +532,7 @@
         <div id="results-section" class="results-section">
             <div class="results-header">
                 <h2>Analysis Results</h2>
-                <button id="copy-pdf-button" class="copy-button" onclick="copyReportAsPDF()">Copy as PDF</button>
+                <button id="print-report-button" class="copy-button" onclick="printReport(this)">Print / Save as PDF</button>
             </div>
             <div id="results-content" class="results-content"></div>
         </div>
@@ -538,14 +559,14 @@
             </div>
             <div class="modal-footer">
                 <button class="dismiss-button" onclick="closeStickerModal()">Dismiss</button>
-                <button class="copy-button" onclick="copyReportFromModal()">📄 Copy Report</button>
+                <button class="copy-button" onclick="printReport(this)">📄 Print / Save Report</button>
             </div>
         </div>
     </div>
 
-    <!-- Success Message for Copy -->
+    <!-- Success Message (no longer actively used by print function) -->
     <div id="success-message" style="display: none;">
-        Report copied to clipboard!
+        Report copied to clipboard! <!-- This text can be removed or updated if success message is repurposed -->
     </div>
 
     <script src="script.js"></script>
