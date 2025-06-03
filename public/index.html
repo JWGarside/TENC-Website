@@ -5,29 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Emperor's New Code</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Xanh+Mono:ital@0;1&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300;8..144,400&display=swap'); /* Added Roboto Flex import */
+        @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
         :root {
             --primary-color: #1e88e5; /* Medium Blue */
             --secondary-color: #64b5f6; /* Lighter Blue */
             --accent-color: #2979ff; /* Vibrant Blue */
             --light-color: #ffffff; /* White */
             --dark-color: #181818; /* Dark Gray for text */
-            --header-font: 'Xanh Mono', monospace; /* Define Xanh Mono here */
-            --body-font: 'Roboto Flex', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Define Roboto Flex for body */
+            --header-font: "Instrument Serif", serif; 
+            --body-font: 'Roboto Flex', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            --code-font: 'Roboto Mono', monospace; /* Define Roboto Mono for code */
+            --black-gradient: linear-gradient(135deg, #042E51, #04080F);
+            --teal-color: #20c997;
+            --gray-color: #6c757d;
         }
         
         body {
-            font-family: var(--body-font); /* Use Roboto Flex for body */
-            font-weight: 400; /* Default to regular weight for Roboto Flex */
+            font-family: var(--body-font); 
+            font-weight: 400; 
             line-height: 1.6;
             color: var(--dark-color);
-            background-color: var(--light-color); /* Fallback background */
-            background-image: url('/blue doodle.png'); /* Background image */
-            background-size: cover; /* Cover the entire page */
-            background-repeat: no-repeat; /* Do not repeat the image */
-            background-position: center center; /* Center the image */
-            background-attachment: fixed; /* Keep the background fixed during scroll */
+            background-color: var(--light-color); 
+            background-image: url('/blue doodle.png'); 
+            background-size: cover; 
+            background-repeat: no-repeat; 
+            background-position: center center; 
+            background-attachment: fixed; 
             margin: 0;
             padding: 0;
         }
@@ -47,7 +50,7 @@
             box-shadow: none; /* Remove shadow */
         }
         
-        /* Main title style - already uses Xanh Mono via var(--header-font) */
+        /* Main title style - already uses Instrument Serif via var(--header-font) */
         h1 { 
             margin: 0;
             font-family: var(--header-font); 
@@ -56,10 +59,9 @@
             font-weight: normal; 
         }
         
-        /* Subtitle style - already uses Xanh Mono via var(--header-font) */
+        /* Subtitle style - already uses Instrument Serif via var(--header-font) */
         .subtitle { 
             font-family: var(--header-font); 
-            font-style: italic; 
             font-size: 1.8rem; 
             opacity: 0.9;
             margin-top: 1rem;
@@ -177,17 +179,59 @@
             padding: 2rem;
             margin: 2rem 0;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            display: none;
+            display: none; /* Initially hidden */
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .results-header h2 {
+            margin: 0; /* Remove default margin from h2 */
+            font-family: var(--body-font); /* Ensure h2 uses body font */
+            font-weight: 600;
         }
         
         .results-content {
-            font-size: 16px; /* This will use Roboto Flex due to body inheritance */
+            font-size: 16px; 
             white-space: pre-line;
             line-height: 1.6;
         }
 
+        /* Styling for inline code elements */
+        .results-content code {
+            font-family: var(--code-font);
+            background-color: #e3f2fd; /* Light blue background, similar to instructions */
+            color: var(--primary-color); /* Medium blue text color */
+            padding: 0.1em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em; /* Slightly smaller than surrounding text */
+        }
+
+        /* Styling for preformatted code blocks (multiline) */
+        .results-content pre {
+            background-color: #f0f4f8; /* A very light blue/grey for the block */
+            border: 1px solid #dde6ed;
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto; /* Allow horizontal scrolling for long lines */
+            white-space: pre; /* Preserve whitespace and line breaks from input */
+        }
+
+        .results-content pre code {
+            background-color: transparent; /* Remove inline code background within pre */
+            color: inherit; /* Inherit text color from pre */
+            padding: 0;
+            border-radius: 0;
+            font-size: 0.9em; /* Consistent font size for code within pre */
+        }
+
+
         /* Styles for Summary Statistics Section */
-        /* h2 here will inherit Xanh Mono from the general h2 rule */
+        /* h2 here will inherit Instrument Serif from the general h2 rule */
         .results-content h2:first-of-type { 
             margin-top: 0;
             margin-bottom: 0.75rem;
@@ -254,6 +298,176 @@
             display: none;
         }
 
+        /* Sticker Notice Styles */
+        .sticker-notice {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--black-gradient);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            z-index: 999;
+            font-family: var(--body-font);
+            font-weight: 500;
+            display: none; /* Hidden by default */
+            animation: gentleBounce 0.5s ease-out forwards;
+        }
+        .sticker-notice:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+            width: 90%;
+            max-width: 500px;
+            overflow: hidden;
+            animation: slideIn 0.4s ease-out forwards;
+        }
+        .modal-header {
+            padding: 15px 20px;
+            background: var(--black-gradient);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header h3 {
+            margin: 0;
+            font-family: var(--body-font);
+            font-weight: 600;
+        }
+        .modal-body {
+            padding: 20px;
+            font-family: var(--body-font);
+        }
+        .modal-body h4 {
+            font-family: var(--body-font);
+            font-weight: 600;
+            margin-top: 0;
+        }
+        .modal-body p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        .modal-footer {
+            padding: 15px 20px;
+            text-align: right;
+            background-color: #f9f9f9;
+            border-top: 1px solid #eee;
+        }
+        .close-button {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #eee;
+            text-decoration: none;
+        }
+
+        /* Button Styles */
+        .copy-button, .dismiss-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: var(--body-font);
+            font-weight: 500;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            margin-left: 10px;
+        }
+        .copy-button {
+            background-color: var(--teal-color);
+            color: white;
+        }
+        .copy-button:hover {
+            background-color: #1aa883;
+            transform: translateY(-1px);
+        }
+        .dismiss-button {
+            background-color: var(--gray-color);
+            color: white;
+        }
+        .dismiss-button:hover {
+            background-color: #5a6268;
+            transform: translateY(-1px);
+        }
+        
+        /* General purpose copy button for results header */
+        .results-header .copy-button {
+             font-size: 0.9rem;
+             padding: 8px 15px;
+        }
+
+
+        /* Success Message Styles */
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: -300px; /* Initially off-screen */
+            background-color: var(--teal-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1001;
+            font-family: var(--body-font);
+            animation: slideInSuccess 0.5s forwards;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes gentleBounce {
+            0% { transform: rotate(-2deg) scale(0.8); opacity: 0; }
+            70% { transform: rotate(-2deg) scale(1.05); opacity: 1; }
+            100% { transform: rotate(-2deg) scale(1); opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideInSuccess {
+            from { right: -300px; }
+            to { right: 20px; }
+        }
+        @keyframes slideOutSuccess {
+            from { right: 20px; }
+            to { right: -300px; }
+        }
+
+
     </style>
 </head>
 <body>
@@ -266,17 +480,6 @@
     
     <div class="container">
         <div class="upload-section">
-            <div class="instructions">
-                <h2>How It Works</h2>
-                <p>This tool analyses a research paper (PDF) and its accompanying code implementation (ZIP archive) to identify discrepancies that might affect the reproducibility or validity of the research.</p>
-                <ol>
-                    <li>Upload your research paper (PDF format).</li>
-                    <li>Upload the corresponding code implementation as a .Zip archive.</li>
-                    <li>Click "Run Comparison" to initiate the analysis.</li>
-                </ol>
-                <p>The system will then compare the paper's core claims and key methological details against the algorithms and architectures of the code, highlighting any issues that may hinder out-of-the-box reproducibility</p>
-            </div>
-            
             <div class="upload-grid">
                 <div class="upload-box">
                     <h3>Research Paper</h3>
@@ -306,11 +509,45 @@
         </div>
         
         <div id="results-section" class="results-section">
-            <h2>Analysis Results</h2>
+            <div class="results-header">
+                <h2>Analysis Results</h2>
+                <button id="copy-pdf-button" class="copy-button" onclick="copyReportAsPDF()">Copy as PDF</button>
+            </div>
             <div id="results-content" class="results-content"></div>
         </div>
     </div>
     
+    <!-- Sticker Notice -->
+    <div id="sticker-notice" class="sticker-notice" onclick="showStickerModal()" style="display: none;">
+        ⚠️ Spotted an issue?
+    </div>
+
+    <!-- Modal -->
+    <div id="sticker-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Share Your Findings</h3>
+                <button class="close-button" onclick="closeStickerModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h4>Spotted a Concerning Discrepancy?</h4>
+                <p>If you've identified significant issues that could affect reproducibility, 
+                    consider reaching out to the paper's authors for clarification. Academic 
+                    dialogue helps improve research quality for everyone.</p>
+
+            </div>
+            <div class="modal-footer">
+                <button class="dismiss-button" onclick="closeStickerModal()">Dismiss</button>
+                <button class="copy-button" onclick="copyReportFromModal()">📄 Copy Report</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message for Copy -->
+    <div id="success-message" style="display: none;">
+        Report copied to clipboard!
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
